@@ -1,0 +1,113 @@
+﻿<Window x:Class="KeeperPRO.UI.Wnds.ApplicationListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KeeperPRO.UI.Wnds"
+        mc:Ignorable="d"
+        Title="ХранительПРО" Height="450" Width="800" MinWidth="1100" Icon="/Resources/logo.png" WindowState="Maximized" WindowStartupLocation="CenterScreen" >
+    <Grid Background="#D9ECF2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <Image
+                Source="/Resources/logo.png"
+                Grid.Row="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="5"/>
+
+            <Label
+                Content="Поиск по ФИО посетителя:"
+                VerticalAlignment="Center"/>
+
+            <TextBox 
+                Template="{DynamicResource TextBoxBaseControlTemplate1}"
+                Width="400"
+                x:Name="tbxSearch"
+                TextChanged="tbxSearch_TextChanged"/>
+
+            
+        </StackPanel>
+        <Button
+                Content="Сделать запись в истории входа"
+                Width="300"
+                HorizontalAlignment="Right"
+                Margin="0 0 15 0"
+                Name="btnHistory"
+                Click="btnHistory_Click"
+            Template="{DynamicResource ButtonBaseControlTemplate1}"/>
+
+        <ListBox x:Name="lbxApplications" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Background="#D9ECF2">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel HorizontalAlignment="Center" Margin="10" Orientation="Horizontal"></WrapPanel>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Width="500" Height="290" BorderBrush="#FF444242" BorderThickness="1">
+                        <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Visitor.lName}" Margin="5" />
+                                <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Visitor.fName}" Margin="5" />
+                                <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Visitor.patronymic}" Margin="5" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="Цель посещения: " Margin="10" />
+                                <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Purpose.name}" Margin="10" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="Срок начала действия заявки: " Margin="10" />
+                                <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="{Binding dateBegin, StringFormat=dd.MM.yyyy}" Margin="10" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="Срок окончания действия заявки: " Margin="10" />
+                                <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="{Binding dateEnd, StringFormat=dd.MM.yyyy}" Margin="10" />
+                            </StackPanel>
+                            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="{Binding StringFormat=Статус: {0}, Path=Status.name}" Margin="10" />
+                            <Button x:Name="btnCheck" Content="Проверить" Click="btnCheck_Click" Template="{DynamicResource ButtonBaseControlTemplate1}"/>
+
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Label
+            Content="Нет результатов"
+            Name="lblNoResults" 
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="Hidden"/>
+
+        <Button Grid.Row="2"
+                Content="Удалить"
+                Name="btnDelete"
+                Click="btnDelete_Click"
+                HorizontalAlignment="Left"
+                Margin="10 0 0 0"
+                Template="{DynamicResource ButtonBaseControlTemplate1}"/>
+
+        <Button Grid.Row="2"
+                Content="диаграмма"
+                Name="btnDiagram"
+                Click="btnDiagram_Click"
+                HorizontalAlignment="Center"
+                />
+
+        <Button Grid.Row="2"
+                Content="Выйти"
+                Name="btnExit"
+                Click="btnExit_Click"
+                HorizontalAlignment="Right"
+                Margin="0 0 10 0"
+                Template="{DynamicResource ButtonBaseControlTemplate1}"/>
+
+    </Grid>
+</Window>

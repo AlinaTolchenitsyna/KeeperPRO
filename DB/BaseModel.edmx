@@ -1,0 +1,458 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище KeeperPROModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dateBegin" Type="date" Nullable="false" />
+          <Property Name="dateEnd" Type="date" Nullable="false" />
+          <Property Name="purposeId" Type="int" Nullable="false" />
+          <Property Name="employeeId" Type="int" Nullable="false" />
+          <Property Name="visitorId" Type="int" Nullable="false" />
+          <Property Name="appointedDate" Type="date" />
+          <Property Name="appointedTime" Type="time" Precision="7" />
+          <Property Name="statusId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="lName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="patronymic" Type="nvarchar" MaxLength="50" />
+          <Property Name="login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LogAutho">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dateTimeLog" Type="datetime" Nullable="false" />
+          <Property Name="employeeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Purpose">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Visitor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="lName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="patronymic" Type="nvarchar" MaxLength="50" />
+          <Property Name="phone" Type="nvarchar" MaxLength="18" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="organization" Type="nvarchar" MaxLength="50" />
+          <Property Name="note" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="series" Type="nvarchar" MaxLength="4" Nullable="false" />
+          <Property Name="number" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="blacklisted" Type="bit" Nullable="false" />
+          <Property Name="birthDate" Type="date" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Application_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Application" Type="Self.Application" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Application">
+              <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_Purpose">
+          <End Role="Purpose" Type="Self.Purpose" Multiplicity="1" />
+          <End Role="Application" Type="Self.Application" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Purpose">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Application">
+              <PropertyRef Name="purposeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Application" Type="Self.Application" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Application">
+              <PropertyRef Name="statusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_Visitor">
+          <End Role="Visitor" Type="Self.Visitor" Multiplicity="1" />
+          <End Role="Application" Type="Self.Application" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Visitor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Application">
+              <PropertyRef Name="visitorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LogAutho_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="LogAutho" Type="Self.LogAutho" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LogAutho">
+              <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище KeeperPROModelContainer">
+          <EntitySet Name="Application" EntityType="Self.Application" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogAutho" EntityType="Self.LogAutho" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Purpose" EntityType="Self.Purpose" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Visitor" EntityType="Self.Visitor" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Application_Employee" Association="Self.FK_Application_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Application" EntitySet="Application" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_Purpose" Association="Self.FK_Application_Purpose">
+            <End Role="Purpose" EntitySet="Purpose" />
+            <End Role="Application" EntitySet="Application" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_Status" Association="Self.FK_Application_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Application" EntitySet="Application" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_Visitor" Association="Self.FK_Application_Visitor">
+            <End Role="Visitor" EntitySet="Visitor" />
+            <End Role="Application" EntitySet="Application" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LogAutho_Employee" Association="Self.FK_LogAutho_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="LogAutho" EntitySet="LogAutho" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KeeperPROModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dateBegin" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dateEnd" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="purposeId" Type="Int32" Nullable="false" />
+          <Property Name="employeeId" Type="Int32" Nullable="false" />
+          <Property Name="visitorId" Type="Int32" Nullable="false" />
+          <Property Name="appointedDate" Type="DateTime" Precision="0" />
+          <Property Name="appointedTime" Type="Time" Precision="7" />
+          <Property Name="statusId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Application_Employee" FromRole="Application" ToRole="Employee" />
+          <NavigationProperty Name="Purpose" Relationship="Self.FK_Application_Purpose" FromRole="Application" ToRole="Purpose" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_Application_Status" FromRole="Application" ToRole="Status" />
+          <NavigationProperty Name="Visitor" Relationship="Self.FK_Application_Visitor" FromRole="Application" ToRole="Visitor" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Application" Relationship="Self.FK_Application_Employee" FromRole="Employee" ToRole="Application" />
+          <NavigationProperty Name="LogAutho" Relationship="Self.FK_LogAutho_Employee" FromRole="Employee" ToRole="LogAutho" />
+        </EntityType>
+        <EntityType Name="LogAutho">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dateTimeLog" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="employeeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_LogAutho_Employee" FromRole="LogAutho" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Purpose">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Application" Relationship="Self.FK_Application_Purpose" FromRole="Purpose" ToRole="Application" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Application" Relationship="Self.FK_Application_Status" FromRole="Status" ToRole="Application" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Visitor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="18" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="organization" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="note" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="series" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="number" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="blacklisted" Type="Boolean" Nullable="false" />
+          <Property Name="birthDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Application" Relationship="Self.FK_Application_Visitor" FromRole="Visitor" ToRole="Application" />
+        </EntityType>
+        <Association Name="FK_Application_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Application" Type="Self.Application" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Application">
+              <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_Purpose">
+          <End Role="Purpose" Type="Self.Purpose" Multiplicity="1" />
+          <End Role="Application" Type="Self.Application" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Purpose">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Application">
+              <PropertyRef Name="purposeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Application" Type="Self.Application" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Application">
+              <PropertyRef Name="statusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_Visitor">
+          <End Role="Visitor" Type="Self.Visitor" Multiplicity="1" />
+          <End Role="Application" Type="Self.Application" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Visitor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Application">
+              <PropertyRef Name="visitorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LogAutho_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="LogAutho" Type="Self.LogAutho" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="LogAutho">
+              <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KeeperPROEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Application" EntityType="Self.Application" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" />
+          <EntitySet Name="LogAutho" EntityType="Self.LogAutho" />
+          <EntitySet Name="Purpose" EntityType="Self.Purpose" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Visitor" EntityType="Self.Visitor" />
+          <AssociationSet Name="FK_Application_Employee" Association="Self.FK_Application_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Application" EntitySet="Application" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_Purpose" Association="Self.FK_Application_Purpose">
+            <End Role="Purpose" EntitySet="Purpose" />
+            <End Role="Application" EntitySet="Application" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_Status" Association="Self.FK_Application_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Application" EntitySet="Application" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_Visitor" Association="Self.FK_Application_Visitor">
+            <End Role="Visitor" EntitySet="Visitor" />
+            <End Role="Application" EntitySet="Application" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LogAutho_Employee" Association="Self.FK_LogAutho_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="LogAutho" EntitySet="LogAutho" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище KeeperPROModelContainer" CdmEntityContainer="KeeperPROEntities">
+          <EntitySetMapping Name="Application">
+            <EntityTypeMapping TypeName="KeeperPROModel.Application">
+              <MappingFragment StoreEntitySet="Application">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="dateBegin" ColumnName="dateBegin" />
+                <ScalarProperty Name="dateEnd" ColumnName="dateEnd" />
+                <ScalarProperty Name="purposeId" ColumnName="purposeId" />
+                <ScalarProperty Name="employeeId" ColumnName="employeeId" />
+                <ScalarProperty Name="visitorId" ColumnName="visitorId" />
+                <ScalarProperty Name="appointedDate" ColumnName="appointedDate" />
+                <ScalarProperty Name="appointedTime" ColumnName="appointedTime" />
+                <ScalarProperty Name="statusId" ColumnName="statusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee">
+            <EntityTypeMapping TypeName="KeeperPROModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fName" ColumnName="fName" />
+                <ScalarProperty Name="lName" ColumnName="lName" />
+                <ScalarProperty Name="patronymic" ColumnName="patronymic" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogAutho">
+            <EntityTypeMapping TypeName="KeeperPROModel.LogAutho">
+              <MappingFragment StoreEntitySet="LogAutho">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="dateTimeLog" ColumnName="dateTimeLog" />
+                <ScalarProperty Name="employeeId" ColumnName="employeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Purpose">
+            <EntityTypeMapping TypeName="KeeperPROModel.Purpose">
+              <MappingFragment StoreEntitySet="Purpose">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="KeeperPROModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="KeeperPROModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Visitor">
+            <EntityTypeMapping TypeName="KeeperPROModel.Visitor">
+              <MappingFragment StoreEntitySet="Visitor">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fName" ColumnName="fName" />
+                <ScalarProperty Name="lName" ColumnName="lName" />
+                <ScalarProperty Name="patronymic" ColumnName="patronymic" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="organization" ColumnName="organization" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="series" ColumnName="series" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="blacklisted" ColumnName="blacklisted" />
+                <ScalarProperty Name="birthDate" ColumnName="birthDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
